@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+# docker-apt-install: 封装 apt-get 安装和缓存清理
+# 用法: docker-apt-install package1 package2 ...
+
+# 更新包列表
+apt-get update
+
+# 修复损坏的依赖（如果有）
+apt-get install -y --fix-broken || true
+
+# 安装指定的包
+apt-get install -y --fix-missing "$@"
+
+# 清理缓存
+rm -rf /var/lib/apt/lists/*
+
